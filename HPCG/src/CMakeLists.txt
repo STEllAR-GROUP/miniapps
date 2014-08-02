@@ -1,3 +1,8 @@
+# Copyright (c) 2013-2014 Grant Mercer
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
 if(NOT HPCG_HPX)
   set(SOURCES
     src/CG.cpp
@@ -50,6 +55,9 @@ if(NOT HPCG_HPX)
 else()
   if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4244")
+    # we can't use -O2 with MSVC
+    set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+      "/MD /Zi /D NDEBUG /Od /Ob2 /Ot /Oi /Oy /GT /GL /fp:precise")
   endif()
   add_hpx_executable(hpcg
     MODULE hpcg
