@@ -57,12 +57,15 @@ else()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd4244")
     # we can't use -O2 with MSVC
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
-      "/MD /Zi /D NDEBUG /Od /Ob2 /Ot /Oi /Oy /GT /GL /fp:precise")
+        "/MD /Zi /D NDEBUG /Od /Ob2 /Ot /Oi /Oy /GT /GL /Gw /fp:precise /d2Zi+")
+    if(MSVC13)
+      set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+          "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} /Zc:inline")
+    endif()
   endif()
   add_hpx_executable(hpcg
     MODULE hpcg
-    AUTOGLOB
-    COMPONENT_DEPENDENCIES iostreams)
+    AUTOGLOB)
 endif()
 
 
