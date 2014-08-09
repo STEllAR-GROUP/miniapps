@@ -358,7 +358,7 @@ namespace mini_ghost {
                     std::cout << "HPX version, weak scaling\n";
                     break;
                 case SCALING_STRONG:
-                    std::cout << "HPX version, weak scaling\n";
+                    std::cout << "HPX version, strong scaling\n";
                     break;
                 default:
                     std::cout << "HPX version, unkown scaling\n";
