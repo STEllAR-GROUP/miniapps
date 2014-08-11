@@ -6,7 +6,7 @@
 #ifndef HPX_EXAMPLES_MINI_GHOST_STENCILS_HPP
 #define HPX_EXAMPLES_MINI_GHOST_STENCILS_HPP
 
-#include <examples/mini_ghost/grid.hpp>
+#include <grid.hpp>
 
 namespace mini_ghost {
 

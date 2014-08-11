@@ -6,8 +6,8 @@
 #ifndef HPX_EXAMPLES_MINI_GHOST_RECV_BUFFER_HPP
 #define HPX_EXAMPLES_MINI_GHOST_RECV_BUFFER_HPP
 
-#include <examples/mini_ghost/grid.hpp>
-#include <examples/mini_ghost/unpack_buffer.hpp>
+#include <grid.hpp>
+#include <unpack_buffer.hpp>
 
 #include <hpx/lcos/async.hpp>
 #include <hpx/util/serialize_buffer.hpp>

@@ -6,7 +6,7 @@
 #ifndef HPX_EXAMPLES_MINI_GHOST_SPIKES_HPP
 #define HPX_EXAMPLES_MINI_GHOST_SPIKES_HPP
 
-#include <examples/mini_ghost/grid.hpp>
+#include <grid.hpp>
 
 namespace mini_ghost {
     template <typename Real>

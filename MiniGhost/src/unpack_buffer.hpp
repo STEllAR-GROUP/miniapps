@@ -6,7 +6,7 @@
 #ifndef HPX_EXAMPLES_MINI_GHOST_UNPACK_BUFFER_HPP
 #define HPX_EXAMPLES_MINI_GHOST_UNPACK_BUFFER_HPP
 
-#include <examples/mini_ghost/grid.hpp>
+#include <grid.hpp>
 #include <hpx/util/serialize_buffer.hpp>
 
 namespace mini_ghost {

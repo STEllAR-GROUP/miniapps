@@ -6,7 +6,7 @@
 #ifndef HPX_EXAMPLES_MINI_PROFILING_HPP
 #define HPX_EXAMPLES_MINI_PROFILING_HPP
 
-#include <examples/mini_ghost/params.hpp>
+#include <params.hpp>
 
 #include <boost/accumulators/accumulators.hpp>
 #include <boost/accumulators/statistics/count.hpp>

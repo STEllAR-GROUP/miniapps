@@ -6,13 +6,13 @@
 #ifndef HPX_EXAMPLES_MINI_GHOST_PARTITION_HPP
 #define HPX_EXAMPLES_MINI_GHOST_PARTITION_HPP
 
-#include <examples/mini_ghost/global_sum.hpp>
-#include <examples/mini_ghost/grid.hpp>
-#include <examples/mini_ghost/params.hpp>
-#include <examples/mini_ghost/recv_buffer.hpp>
-#include <examples/mini_ghost/send_buffer.hpp>
-#include <examples/mini_ghost/spikes.hpp>
-#include <examples/mini_ghost/stencils.hpp>
+#include <global_sum.hpp>
+#include <grid.hpp>
+#include <params.hpp>
+#include <recv_buffer.hpp>
+#include <send_buffer.hpp>
+#include <spikes.hpp>
+#include <stencils.hpp>
 
 #include <hpx/lcos/local/dataflow.hpp>
 #include <hpx/lcos/wait_all.hpp>

@@ -6,12 +6,12 @@
 #ifndef HPX_EXAMPLES_MINI_STEPPER_HPP
 #define HPX_EXAMPLES_MINI_STEPPER_HPP
 
-#include <examples/mini_ghost/params.hpp>
-#include <examples/mini_ghost/global_sum.hpp>
-#include <examples/mini_ghost/partition.hpp>
-#include <examples/mini_ghost/send_buffer.hpp>
-#include <examples/mini_ghost/spikes.hpp>
-#include <examples/mini_ghost/recv_buffer.hpp>
+#include <params.hpp>
+#include <global_sum.hpp>
+#include <partition.hpp>
+#include <send_buffer.hpp>
+#include <spikes.hpp>
+#include <recv_buffer.hpp>
 
 #include <hpx/include/components.hpp>
 #include <hpx/lcos/broadcast.hpp>

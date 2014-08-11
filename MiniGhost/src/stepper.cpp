@@ -4,10 +4,10 @@
 //  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #include <hpx/hpx_fwd.hpp>
-#include <examples/mini_ghost/profiling.hpp>
-#include <examples/mini_ghost/stepper.hpp>
-#include <examples/mini_ghost/stencils.hpp>
-#include <examples/mini_ghost/write_grid.hpp>
+#include <profiling.hpp>
+#include <stepper.hpp>
+#include <stencils.hpp>
+#include <write_grid.hpp>
 
 #include <hpx/lcos/wait_all.hpp>
 

@@ -7,6 +7,8 @@
 # add MiniGhost executable
 add_definitions(-DHPX_LIMIT=10)
 
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
 add_hpx_executable(mini_ghost
     MODULE mini_ghost
     AUTOGLOB)

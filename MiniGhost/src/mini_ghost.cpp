@@ -7,10 +7,10 @@
 #include <hpx/hpx.hpp>
 #include <hpx/lcos/local/counting_semaphore.hpp>
 
-#include <examples/mini_ghost/profiling.hpp>
-#include <examples/mini_ghost/barrier.hpp>
-#include <examples/mini_ghost/params.hpp>
-#include <examples/mini_ghost/stepper.hpp>
+#include <profiling.hpp>
+#include <barrier.hpp>
+#include <params.hpp>
+#include <stepper.hpp>
 
 typedef mini_ghost::grid<double> grid_type;
 

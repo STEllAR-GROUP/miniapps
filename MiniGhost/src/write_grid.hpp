@@ -6,7 +6,7 @@
 #ifndef HPX_EXAMPLES_MINI_WRITE_GRID_HPP
 #define HPX_EXAMPLES_MINI_WRITE_GRID_HPP
 
-#include <examples/mini_ghost/grid.hpp>
+#include <grid.hpp>
 
 #include <string>
 
