@@ -432,6 +432,7 @@ namespace mini_ghost {
                 for(std::vector<hpx::shared_future<void> >& v: send_futures)
                 {
                     v.clear();
+                    HPX_ASSERT(v.empty());
                 }
 
                 // Receive boundaries asynchronously and copy them into the grid
@@ -509,27 +510,27 @@ namespace mini_ghost {
                                 calc_future;
 
                             // Setup send buffer dependencies ...
-                            if(send_buffer_west_.dest_ && nx_block == 0)
+                            if(send_buffer_west_.dest_ && nx_block == calc_futures[dst_].nx_-1)
                             {
                                 send_futures[WEST].push_back(calc_future);
                             }
-                            if(send_buffer_east_.dest_ && nx_block == calc_futures[dst_].nx_-1)
+                            if(send_buffer_east_.dest_ && nx_block == 0 )
                             {
                                 send_futures[EAST].push_back(calc_future);
                             }
-                            if(send_buffer_south_.dest_ && ny_block == 0)
+                            if(send_buffer_south_.dest_ && ny_block == calc_futures[dst_].ny_-1)
                             {
                                 send_futures[SOUTH].push_back(calc_future);
                             }
-                            if(send_buffer_north_.dest_ && ny_block == calc_futures[dst_].ny_-1)
+                            if(send_buffer_north_.dest_ && ny_block == 0)
                             {
                                 send_futures[NORTH].push_back(calc_future);
                             }
-                            if(send_buffer_front_.dest_ && nz_block == 0)
+                            if(send_buffer_front_.dest_ && nz_block == calc_futures[dst_].nz_-1)
                             {
                                 send_futures[FRONT].push_back(calc_future);
                             }
-                            if(send_buffer_back_.dest_ && nz_block == calc_futures[dst_].nz_-1)
+                            if(send_buffer_back_.dest_ && nz_block == 0)
                             {
                                 send_futures[BACK].push_back(calc_future);
                             }
