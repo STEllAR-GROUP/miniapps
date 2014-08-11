@@ -10,6 +10,7 @@
 #include <unpack_buffer.hpp>
 
 #include <hpx/lcos/async.hpp>
+#include <hpx/lcos/local/receive_buffer.hpp>
 #include <hpx/util/serialize_buffer.hpp>
 
 namespace mini_ghost {
@@ -26,25 +27,12 @@ namespace mini_ghost {
             BufferType
             buffer_type;
 
-        typedef
-            hpx::lcos::local::promise<buffer_type>
-            buffer_promise_type;
-
-        typedef
-            std::map<std::size_t, boost::shared_ptr<buffer_promise_type> >
-            buffer_map_type;
-
-        typedef
-            typename buffer_map_type::iterator
-            iterator;
-
         recv_buffer()
           : valid_(false)
         {}
 
         recv_buffer(recv_buffer &&other)
-          : mtx_(std::move(other.mtx_))
-          , buffer_map_(std::move(other.buffer_map_))
+          : buffer_(std::move(other.buffer_))
           , valid_(other.valid_)
         {
         }
@@ -53,8 +41,7 @@ namespace mini_ghost {
         {
             if(this != &other)
             {
-                mtx_        = std::move(other.mtx_);
-                buffer_map_ = std::move(other.buffer_map_);
+                buffer_     = std::move(other.buffer_);
                 valid_      = other.valid_;
             }
             return *this;
@@ -62,19 +49,13 @@ namespace mini_ghost {
 
         ~recv_buffer()
         {
-            for(auto & v : buffer_map_)
-            {
-                if(v.second->valid())
-                {
-                    v.second->get_future();
-                }
-            }
         }
 
         void operator()(grid<value_type> & g, std::size_t step)
         {
+            HPX_ASSERT(valid_);
             hpx::util::high_resolution_timer timer;
-            buffer_type buffer = get_buffer(step).get();
+            buffer_type buffer = buffer_.receive(step).get();
             double elapsed = timer.elapsed();
             profiling::data().time_wait(elapsed);
             switch(Zone)
@@ -103,44 +84,11 @@ namespace mini_ghost {
 
         void set_buffer(buffer_type buffer, std::size_t step)
         {
-            mutex_type::scoped_lock l(mtx_);
-            get_buffer_entry(step)->second->set_value(buffer);
+            HPX_ASSERT(valid_);
+            buffer_.store_received(step, std::move(buffer));
         }
 
-        hpx::future<buffer_type> get_buffer(std::size_t step)
-        {
-            hpx::future<buffer_type> res;
-            {
-                mutex_type::scoped_lock l(mtx_);
-                iterator it = get_buffer_entry(step);
-                res = it->second->get_future();
-                HPX_ASSERT(buffer_map_.find(step) != buffer_map_.end());
-                buffer_map_.erase(it);
-            }
-            return res;
-        }
-
-        iterator get_buffer_entry(std::size_t step)
-        {
-            iterator it = buffer_map_.find(step);
-            if(it == buffer_map_.end())
-            {
-                auto res
-                    = buffer_map_.insert(
-                        std::make_pair(
-                            step
-                          , boost::make_shared<buffer_promise_type>()
-                        )
-                    );
-                HPX_ASSERT(res.second);
-                return res.first;
-            }
-            return it;
-        }
-
-        mutable mutex_type mtx_;
-
-        buffer_map_type buffer_map_;
+        hpx::lcos::local::receive_buffer<buffer_type, mutex_type> buffer_;
         bool valid_;
     };
 }
