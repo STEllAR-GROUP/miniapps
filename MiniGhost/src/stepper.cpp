@@ -62,17 +62,15 @@ namespace mini_ghost {
                 stepper_ids = std::move(ids);
 
                 // creating a mapping table to favorably distribute the indices
+                /*
                 std::vector<std::size_t> id_map(p.nranks);
-                //std::size_t r = p.rank % p.nranks;
+                std::size_t r = p.rank % p.nranks;
                 for (std::size_t i = 0; i != p.nranks; ++i)
                 {
-                    id_map[i] = i;
-                /*
                     id_map[r] = i;
                     r = (r + 1) % p.nranks;
-                */
                 }
-
+                */
 
                 // Set position in 3D processor grid
                 std::size_t myrank_xy = p.rank % (p.npx*p.npy);
@@ -100,7 +98,7 @@ namespace mini_ghost {
                     partitions_.push_back(
                         partition_type(
                             var, p
-                          , stepper_ids, id_map
+                          , stepper_ids//, id_map
                           , my_px, my_py, my_pz
                           , random_lambda
                           , partition_initialized[var]

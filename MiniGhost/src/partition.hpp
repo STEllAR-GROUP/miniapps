@@ -42,7 +42,7 @@ namespace mini_ghost {
             std::size_t id
           , params<Real> & p
           , std::vector<hpx::id_type> & ids
-          , std::vector<std::size_t> const & id_map
+          //, std::vector<std::size_t> const & id_map
           , std::size_t my_px, std::size_t my_py, std::size_t my_pz
           , Random const & random
           , hpx::future<void> & sum_future
@@ -833,7 +833,7 @@ namespace mini_ghost {
         std::size_t id
       , params<Real> & p
       , std::vector<hpx::id_type> & ids
-      , std::vector<std::size_t> const & id_map
+      //, std::vector<std::size_t> const & id_map
       , std::size_t my_px
       , std::size_t my_py
       , std::size_t my_pz
@@ -859,32 +859,38 @@ namespace mini_ghost {
         // Setup neighbors
         if(my_py != 0)
         {
-            send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
+            //send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
+            send_buffer_south_.dest_ = ids[p.rank - p.npx];
             recv_buffer_south_.valid_ = true;
         }
         if(my_py != p.npy-1)
         {
-            send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
+            //send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
+            send_buffer_north_.dest_ = ids[p.rank + p.npx];
             recv_buffer_north_.valid_ = true;
         }
         if(my_px != 0)
         {
-            send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
+            //send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
+            send_buffer_west_.dest_ = ids[p.rank - 1];
             recv_buffer_west_.valid_ = true;
         }
         if(my_px != p.npx-1)
         {
-            send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
+            //send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
+            send_buffer_east_.dest_ = ids[p.rank + 1];
             recv_buffer_east_.valid_ = true;
         }
         if(my_pz != 0)
         {
-            send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
+            //send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
+            send_buffer_back_.dest_ = ids[p.rank - (p.npx*p.npy)];
             recv_buffer_back_.valid_ = true;
         }
         if(my_pz != p.npz-1)
         {
-            send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
+            //send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
+            send_buffer_front_.dest_ = ids[p.rank + (p.npx*p.npy)];
             recv_buffer_front_.valid_ = true;
         }
 
