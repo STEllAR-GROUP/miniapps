@@ -31,7 +31,7 @@ namespace mini_ghost {
           : valid_(false)
         {}
 
-        recv_buffer(recv_buffer &&other)
+        recv_buffer(recv_buffer && other)
           : buffer_(std::move(other.buffer_))
           , valid_(other.valid_)
         {

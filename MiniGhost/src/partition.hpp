@@ -856,6 +856,38 @@ namespace mini_ghost {
         grids_[dst_].resize(nx_+2, ny_+2, nz_+2, 0.0);
         grids_[src_].resize(nx_+2, ny_+2, nz_+2, 0.0);
 
+        // Setup neighbors
+        if(my_py != 0)
+        {
+            send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
+            recv_buffer_south_.valid_ = true;
+        }
+        if(my_py != p.npy-1)
+        {
+            send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
+            recv_buffer_north_.valid_ = true;
+        }
+        if(my_px != 0)
+        {
+            send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
+            recv_buffer_west_.valid_ = true;
+        }
+        if(my_px != p.npx-1)
+        {
+            send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
+            recv_buffer_east_.valid_ = true;
+        }
+        if(my_pz != 0)
+        {
+            send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
+            recv_buffer_back_.valid_ = true;
+        }
+        if(my_pz != p.npz-1)
+        {
+            send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
+            recv_buffer_front_.valid_ = true;
+        }
+
         if(p.debug_grid)
         {
             std::string filename = "initial_";
@@ -899,38 +931,6 @@ namespace mini_ghost {
         else if(p.percent_sum > 0)
         {
             sum_grid_ = ((id_ % 10) == 0);
-        }
-
-        // Setup neighbors
-        if(my_py != 0)
-        {
-            send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
-            recv_buffer_south_.valid_ = true;
-        }
-        if(my_py != p.npy-1)
-        {
-            send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
-            recv_buffer_north_.valid_ = true;
-        }
-        if(my_px != 0)
-        {
-            send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
-            recv_buffer_west_.valid_ = true;
-        }
-        if(my_px != p.npx-1)
-        {
-            send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
-            recv_buffer_east_.valid_ = true;
-        }
-        if(my_pz != 0)
-        {
-            send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
-            recv_buffer_back_.valid_ = true;
-        }
-        if(my_pz != p.npz-1)
-        {
-            send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
-            recv_buffer_front_.valid_ = true;
         }
     }
 }
