@@ -18,6 +18,8 @@
 #include <hpx/lcos/wait_all.hpp>
 #include <hpx/lcos/when_all.hpp>
 
+#include <hpx/util/unwrapped.hpp>
+
 namespace mini_ghost {
     template <
         typename Real
@@ -618,7 +620,7 @@ namespace mini_ghost {
                     [this, dst, step, &ids, &io_mutex](
                             std::vector<hpx::shared_future<void> > &&
                           , hpx::shared_future<Real> flux_out_future
-                        ) -> hpx::future<void>
+                        ) //-> hpx::future<void>
                     {
                         double time_now = hpx::util::high_resolution_timer::now();
                         hpx::util::high_resolution_timer timer_comp;
@@ -630,12 +632,15 @@ namespace mini_ghost {
 
                         profiling::data().time_sumgrid_comp(timer_comp.elapsed());
 
+                        Real value = sum_allreduce_[dst].add(
+                            SumAction(), ids, rank_, sum, id_, dst).get();
+                        /*
                         return
                             sum_allreduce_[dst].add(
                                 SumAction(), ids, rank_, sum, id_, dst)
                             .then(
                                 [this, time_now, step, &io_mutex](hpx::future<Real> value)
-                                {
+                                {*/
                                     hpx::util::high_resolution_timer timer(time_now);
                                     profiling::data().time_sumgrid_comm(timer.elapsed());
                                     profiling::data().time_sumgrid(timer.elapsed());
@@ -644,7 +649,7 @@ namespace mini_ghost {
 
                                     // Report sum results for step-1
                                     Real error_iter
-                                        = std::abs(source_total_ - value.get()) / source_total_;
+                                        = std::abs(source_total_ - value/*.get()*/) / source_total_;
                                     bool terminate = error_iter > error_tol_;
 
                                     if(terminate || (step % report_diffusion_ == 0))
@@ -658,8 +663,11 @@ namespace mini_ghost {
                                             << std::endl;
                                     }
                                     if(terminate) hpx::terminate();
-                                }
+                                /*}
                             );
+                            */
+                        std::cout << "sum_grid at step " << step << "\n";
+                        return;
                     }
                   , dependencies
                   , flux_out_future
@@ -856,44 +864,6 @@ namespace mini_ghost {
         grids_[dst_].resize(nx_+2, ny_+2, nz_+2, 0.0);
         grids_[src_].resize(nx_+2, ny_+2, nz_+2, 0.0);
 
-        // Setup neighbors
-        if(my_py != 0)
-        {
-            //send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
-            send_buffer_south_.dest_ = ids[p.rank - p.npx];
-            recv_buffer_south_.valid_ = true;
-        }
-        if(my_py != p.npy-1)
-        {
-            //send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
-            send_buffer_north_.dest_ = ids[p.rank + p.npx];
-            recv_buffer_north_.valid_ = true;
-        }
-        if(my_px != 0)
-        {
-            //send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
-            send_buffer_west_.dest_ = ids[p.rank - 1];
-            recv_buffer_west_.valid_ = true;
-        }
-        if(my_px != p.npx-1)
-        {
-            //send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
-            send_buffer_east_.dest_ = ids[p.rank + 1];
-            recv_buffer_east_.valid_ = true;
-        }
-        if(my_pz != 0)
-        {
-            //send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
-            send_buffer_back_.dest_ = ids[p.rank - (p.npx*p.npy)];
-            recv_buffer_back_.valid_ = true;
-        }
-        if(my_pz != p.npz-1)
-        {
-            //send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
-            send_buffer_front_.dest_ = ids[p.rank + (p.npx*p.npy)];
-            recv_buffer_front_.valid_ = true;
-        }
-
         if(p.debug_grid)
         {
             std::string filename = "initial_";
@@ -937,6 +907,44 @@ namespace mini_ghost {
         else if(p.percent_sum > 0)
         {
             sum_grid_ = ((id_ % 10) == 0);
+        }
+
+        // Setup neighbors
+        if(my_py != 0)
+        {
+            //send_buffer_south_.dest_ = ids[id_map[p.rank - p.npx]];
+            send_buffer_south_.dest_ = ids[p.rank - p.npx];
+            recv_buffer_south_.valid_ = true;
+        }
+        if(my_py != p.npy-1)
+        {
+            //send_buffer_north_.dest_ = ids[id_map[p.rank + p.npx]];
+            send_buffer_north_.dest_ = ids[p.rank + p.npx];
+            recv_buffer_north_.valid_ = true;
+        }
+        if(my_px != 0)
+        {
+            //send_buffer_west_.dest_ = ids[id_map[p.rank - 1]];
+            send_buffer_west_.dest_ = ids[p.rank - 1];
+            recv_buffer_west_.valid_ = true;
+        }
+        if(my_px != p.npx-1)
+        {
+            //send_buffer_east_.dest_ = ids[id_map[p.rank + 1]];
+            send_buffer_east_.dest_ = ids[p.rank + 1];
+            recv_buffer_east_.valid_ = true;
+        }
+        if(my_pz != 0)
+        {
+            //send_buffer_back_.dest_ = ids[id_map[p.rank - (p.npx*p.npy)]];
+            send_buffer_back_.dest_ = ids[p.rank - (p.npx*p.npy)];
+            recv_buffer_back_.valid_ = true;
+        }
+        if(my_pz != p.npz-1)
+        {
+            //send_buffer_front_.dest_ = ids[id_map[p.rank + (p.npx*p.npy)]];
+            send_buffer_front_.dest_ = ids[p.rank + (p.npx*p.npy)];
+            recv_buffer_front_.valid_ = true;
         }
     }
 }
