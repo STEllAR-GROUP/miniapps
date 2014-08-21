@@ -18,13 +18,28 @@ project(hpcg CXX)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
   ${HPX_ROOT}/share/cmake-${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}/Modules)
 
-set(HPCG_HPX ON CACHE BOOL "Use HPX" FORCE)
-set(HPCG_OPENMP OFF CACHE BOOL "Use OpenMP" FORCE)
-set(HPCG_MPI OFF CACHE BOOL "Use MPI" FORCE)
+if(DEFINED HPCG_NOHPX)
+  set(HPCG_NOHPX ${HPCG_NOHPX} CACHE BOOL "Don't use HPX" FORCE)
+else()
+  set(HPCG_NOHPX OFF CACHE BOOL "Don't use HPX" FORCE)
+endif()
+
+if(DEFINED HPCG_NOOPENMP)
+  set(HPCG_NOOPENMP ${HPCG_NOOPENMP} CACHE BOOL "Don't use OpenMP" FORCE)
+else()
+  set(HPCG_NOOPENMP ON CACHE BOOL "Don't use OpenMP" FORCE)
+endif()
+
+if(DEFINED HPCG_NOMPI)
+  set(HPCG_NOMPI ${HPCG_NOMPI} CACHE BOOL "Don't use MPI" FORCE)
+else()
+  set(HPCG_NOMPI ON CACHE BOOL "Don't use MPI" FORCE)
+endif()
+
 set(HPCG_DEBUG OFF CACHE BOOL "Enable additional debug output" FORCE)
 
 # Instruct cmake to find the HPX settings
-if(HPCG_HPX)
+if(NOT HPCG_NOHPX)
   find_package(HPX REQUIRED)
   if(NOT MSVC)
     set(HPX_RPATH "${CMAKE_BINARY_DIR}/lib/hpx:${HPX_RPATH}:${CMAKE_INSTALL_PREFIX}/lib/hpx")
@@ -35,7 +50,11 @@ else()
    add_definitions("-DHPCG_NOHPX")
 endif()
 
-if(HPCG_OPENMP)
+if(NOT HPCG_NOOPENMP)
+    if(NOT HPCG_NOHPX)
+      message(FATAL_ERROR "Enabling HPX and OpenMP at the same time is not supported")
+    endif()
+
     find_package(OpenMP REQUIRED)
     if (OPENMP_FOUND)
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
@@ -45,7 +64,11 @@ else()
     add_definitions("-DHPCG_NOOPENMP")
 endif()
 
-if(HPCG_MPI)
+if(NOT HPCG_NOMPI)
+    if(NOT HPCG_NOHPX)
+      message(FATAL_ERROR "Enabling HPX and MPI at the same time is not supported")
+    endif()
+
     find_package(MPI REQUIRED)
     include_directories(${MPI_INCLUDE_PATH})
 else()

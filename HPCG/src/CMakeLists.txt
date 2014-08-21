@@ -3,43 +3,43 @@
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-if(NOT HPCG_HPX)
+if(HPCG_NOHPX)
   set(SOURCES
-    src/CG.cpp
-    src/CG_ref.cpp
-    src/TestCG.cpp
-    src/ComputeResidual.cpp
-    src/ExchangeHalo.cpp
-    src/GenerateGeometry.cpp
-    src/GenerateProblem.cpp
-    src/OptimizeProblem.cpp
-    src/ReadHpcgDat.cpp
-    src/ReportResults.cpp
-    src/SetupHalo.cpp
-    src/TestSymmetry.cpp
-    src/TestNorms.cpp
-    src/WriteProblem.cpp
-    src/YAML_Doc.cpp
-    src/YAML_Element.cpp
-    src/ComputeDotProduct.cpp
-    src/ComputeDotProduct_ref.cpp
-    src/mytimer.cpp
-    src/ComputeSPMV.cpp
-    src/ComputeSPMV_ref.cpp
-    src/ComputeSYMGS.cpp
-    src/ComputeSYMGS_ref.cpp
-    src/ComputeWAXPBY.cpp
-    src/ComputeWAXPBY_ref.cpp
-    src/ComputeMG.cpp
-    src/ComputeMG_ref.cpp
-    src/ComputeProlongation.cpp
-    src/ComputeProlongation_ref.cpp
-    src/ComputeRestriction.cpp
-    src/ComputeRestriction_ref.cpp
-    src/GenerateCoarseProblem.cpp
-    src/init.cpp
-    src/finalize.cpp
-    testing/main.cpp)
+    CG.cpp
+    CG_ref.cpp
+    TestCG.cpp
+    ComputeResidual.cpp
+    ExchangeHalo.cpp
+    GenerateGeometry.cpp
+    GenerateProblem.cpp
+    OptimizeProblem.cpp
+    ReadHpcgDat.cpp
+    ReportResults.cpp
+    SetupHalo.cpp
+    TestSymmetry.cpp
+    TestNorms.cpp
+    WriteProblem.cpp
+    YAML_Doc.cpp
+    YAML_Element.cpp
+    ComputeDotProduct.cpp
+    ComputeDotProduct_ref.cpp
+    mytimer.cpp
+    ComputeSPMV.cpp
+    ComputeSPMV_ref.cpp
+    ComputeSYMGS.cpp
+    ComputeSYMGS_ref.cpp
+    ComputeWAXPBY.cpp
+    ComputeWAXPBY_ref.cpp
+    ComputeMG.cpp
+    ComputeMG_ref.cpp
+    ComputeProlongation.cpp
+    ComputeProlongation_ref.cpp
+    ComputeRestriction.cpp
+    ComputeRestriction_ref.cpp
+    GenerateCoarseProblem.cpp
+    init.cpp
+    finalize.cpp
+    ../testing/main.cpp)
 
   add_executable(hpcg ${SOURCES})
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
