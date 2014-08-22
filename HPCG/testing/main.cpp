@@ -75,6 +75,19 @@ using std::endl;
 */
 int main(int argc, char * argv[]) {
 
+
+#ifndef HPCG_NOHPX
+std::cout<<"Using HPX"<<endl;
+#endif
+
+#ifndef HPCG_NOOPENMP
+std::cout<<"Using openmp"<<endl;
+#endif
+
+#ifndef HPCG_NOMPI
+std::cout<<"using mpi"<<endl;
+#endif
+
 #ifndef HPCG_NOMPI
   MPI_Init(&argc, &argv);
 #endif

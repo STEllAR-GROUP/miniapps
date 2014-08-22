@@ -41,6 +41,7 @@ if(HPCG_NOHPX)
     finalize.cpp
     ../testing/main.cpp)
 
+  include_directories(".")
   add_executable(hpcg ${SOURCES})
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
   if(HPCG_MPI)
