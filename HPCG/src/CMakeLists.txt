@@ -2,9 +2,7 @@
 #
 # Distributed under the Boost Software License, Version 1.0. (See accompanying
 # file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
-
-if(HPCG_NOHPX)
-  set(SOURCES
+set(SOURCES
     CG.cpp
     CG_ref.cpp
     TestCG.cpp
@@ -41,7 +39,9 @@ if(HPCG_NOHPX)
     finalize.cpp
     ../testing/main.cpp)
 
-  include_directories(".")
+include_directories(".")
+
+if(HPCG_NOHPX)
   add_executable(hpcg ${SOURCES})
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
   if(HPCG_MPI)
@@ -66,7 +66,7 @@ else()
   endif()
   add_hpx_executable(hpcg
     MODULE hpcg
-    AUTOGLOB)
+    SOURCES ${SOURCES})
 endif()
 
 

@@ -76,7 +76,7 @@ HPCG_Init(int * argc_p, char ** *argv_p, HPCG_Params & params) {
     if (argc <= i+1 || sscanf(argv[i+1], "%d", iparams+i) != 1 || iparams[i] < 10) iparams[i] = 0;
 
   /* for some MPI environments, command line arguments may get complicated so we need a prefix */
-  for (i = 1; i <= argc && argv[i]; ++i)
+  for (i = 1; i < argc && argv[i]; ++i)
     for (j = 0; j < 3; ++j)
       if (startswith(argv[i], cparams[j]))
         if (sscanf(argv[i]+strlen(cparams[j]), "%d", iparams+j) != 1 || iparams[j] < 10) iparams[j] = 0;
