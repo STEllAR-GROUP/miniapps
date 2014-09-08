@@ -85,7 +85,8 @@ namespace mini_ghost {
                 std::size_t num_sum_grid = 0;
 
                 // create partition objects, one for each variable
-                std::vector<hpx::future<void> > partition_initialized(p.num_vars);
+		std::vector<hpx::future<void> > partition_initialized;
+		partition_initialized.reserve(p.num_vars);
 
                 spikes_.reserve(p.num_vars);
                 partitions_.reserve(p.num_vars);
