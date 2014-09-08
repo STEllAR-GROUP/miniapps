@@ -89,7 +89,7 @@ namespace mini_ghost {
 		std::vector<hpx::future<void> > partition_initialized;
 		partition_initialized.reserve(p.num_vars);
 
-		for(std::size_t i=0; i<partition_initialized.size() < ++i)
+		for(std::size_t i=0; i<partition_initialized.size(); < ++i)
 		{
 		    partition_initialized.push_back(temp.get_future());
 		}
