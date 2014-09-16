@@ -85,13 +85,13 @@ namespace mini_ghost {
                 std::size_t num_sum_grid = 0;
 
                 // create partition objects, one for each variable
-		std::vector<hpx::future<void> > partition_initialized;
-		partition_initialized.reserve(p.num_vars);
+                std::vector<hpx::future<void> > partition_initialized;
+                partition_initialized.reserve(p.num_vars);
 
-		for(std::size_t i=0; i < partition_initialized.size(); ++i)
-		{
-		    partition_initialized.push_back(hpx::future<void>());
-		}
+                for(std::size_t i=0; i < p.num_vars; ++i)
+                {
+                    partition_initialized.push_back(hpx::future<void>());
+                }
 
                 spikes_.reserve(p.num_vars);
                 partitions_.reserve(p.num_vars);
@@ -101,6 +101,7 @@ namespace mini_ghost {
                         spikes<Real>(p, my_px, my_py, my_pz, random_lambda)
                     );
 
+                    std::cout << "Var: " << var << "partition_init_size:" << partition_initialized.size() << std::endl;
                     partitions_.push_back(
                         partition_type(
                             var, p
