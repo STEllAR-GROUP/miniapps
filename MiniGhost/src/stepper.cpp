@@ -101,7 +101,6 @@ namespace mini_ghost {
                         spikes<Real>(p, my_px, my_py, my_pz, random_lambda)
                     );
 
-                    std::cout << "Var: " << var << "partition_init_size:" << partition_initialized.size() << std::endl;
                     partitions_.push_back(
                         partition_type(
                             var, p
