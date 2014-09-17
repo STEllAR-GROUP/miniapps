@@ -236,7 +236,7 @@ namespace mini_ghost {
                     recv_futures[SOUTH] =
                         hpx::async(
                             hpx::util::bind(
-                                boost::ref(recv_buffer_north_)
+                                boost::ref(recv_buffer_south_)
                                 , boost::ref(grids_[src_])
                                 , step
                             )
