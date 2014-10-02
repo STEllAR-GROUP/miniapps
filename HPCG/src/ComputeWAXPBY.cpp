@@ -75,7 +75,7 @@ hpx::future<void> ComputeWAXPBY_async(
 
   if (alpha==1.0) {
     return hpx::parallel::for_each(
-      hpx::parallel::task, iterator(0), iterator(n),
+      hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(n),
       [xv, yv, beta, wv](local_int_t i)
       {
         wv[i] = xv[i] + beta * yv[i];
@@ -84,7 +84,7 @@ hpx::future<void> ComputeWAXPBY_async(
 
   if (beta==1.0) {
     return hpx::parallel::for_each(
-      hpx::parallel::task, iterator(0), iterator(n),
+      hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(n),
       [xv, yv, alpha, wv](local_int_t i)
       {
         wv[i] = alpha * xv[i] + yv[i];
@@ -92,7 +92,7 @@ hpx::future<void> ComputeWAXPBY_async(
   }
 
   return hpx::parallel::for_each(
-    hpx::parallel::task, iterator(0), iterator(n),
+    hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(n),
     [xv, yv, alpha, beta, wv](local_int_t i)
     {
       wv[i] = alpha * xv[i] + beta * yv[i];

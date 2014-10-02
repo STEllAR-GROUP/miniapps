@@ -65,7 +65,7 @@ hpx::future<void> ComputeProlongation_async(const SparseMatrix & Af, Vector & xf
 
   // This loop is safe to vectorize
   return hpx::parallel::for_each(
-    hpx::parallel::task, iterator(0), iterator(nc),
+    hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(nc),
     [xfv, xcv, f2c](local_int_t i)
     {
       xfv[f2c[i]] += xcv[i];

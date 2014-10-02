@@ -74,7 +74,7 @@ hpx::future<double> ComputeDotProduct_async(
   if (yv == xv) {
     return
       hpx::parallel::transform_reduce(
-          hpx::parallel::task, iterator(0), iterator(n), 0.0,
+          hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(n), 0.0,
           std::plus<double>(),
           [xv](local_int_t i)
           {
@@ -84,7 +84,7 @@ hpx::future<double> ComputeDotProduct_async(
 
   return
     hpx::parallel::transform_reduce(
-      hpx::parallel::task, iterator(0), iterator(n), 0.0,
+      hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(n), 0.0,
       std::plus<double>(),
       [xv, yv](local_int_t i)
       {
