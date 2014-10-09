@@ -73,7 +73,7 @@ hpx::future<void> ComputeSPMV_async( const SparseMatrix & A, /*const*/ Vector & 
   typedef boost::counting_iterator<local_int_t> iterator;
 
   return hpx::parallel::for_each(
-    hpx::parallel::task, iterator(0), iterator(nrow),
+    hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(nrow),
     [xv, yv, &A](local_int_t i) {
       double sum = 0.0;
       const double * const cur_vals = A.matrixValues[i];

@@ -66,7 +66,7 @@ hpx::future<void> ComputeRestriction_async(const SparseMatrix & A, const Vector 
   typedef boost::counting_iterator<local_int_t> iterator;
 
   return hpx::parallel::for_each(
-    hpx::parallel::task, iterator(0), iterator(nc),
+    hpx::parallel::par(hpx::parallel::task), iterator(0), iterator(nc),
     [rcv, rfv, Axfv, f2c](local_int_t i)
     {
       rcv[i] = rfv[f2c[i]] - Axfv[f2c[i]];
