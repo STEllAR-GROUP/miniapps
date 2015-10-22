@@ -35,7 +35,7 @@ namespace mini_ghost {
 
     public:
         typedef grid<Real> grid_type;
-        typedef hpx::util::serialize_buffer<Real> buffer_type;
+        typedef hpx::serialization::serialize_buffer<Real> buffer_type;
 
         partition() {}
 
@@ -49,7 +49,7 @@ namespace mini_ghost {
           , Random const & random
           , hpx::future<void> & sum_future
         );
-
+        
         partition(partition &&other)
           : send_buffer_north_(std::move(other.send_buffer_north_))
           , recv_buffer_north_(std::move(other.recv_buffer_north_))
@@ -92,6 +92,7 @@ namespace mini_ghost {
             sum_allreduce_[0] = std::move(other.sum_allreduce_[0]);
             sum_allreduce_[1] = std::move(other.sum_allreduce_[1]);
         }
+        
         partition& operator=(partition &&other)
         {
             recv_buffer_north_ = std::move(other.recv_buffer_north_);
@@ -140,7 +141,7 @@ namespace mini_ghost {
             this->report_diffusion_  = other.report_diffusion_;
             this->sum_grid_          = other.sum_grid_;
             return *this;
-        }
+        } 
 
         void sum_allreduce(std::size_t idx, std::size_t which, std::size_t generation, Real value)
         {

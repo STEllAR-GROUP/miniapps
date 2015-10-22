@@ -52,9 +52,9 @@ namespace mini_ghost {
 
         rank = p.rank;
 
-        hpx::register_id_with_basename(base_name, this->get_gid(), p.rank);
+        hpx::register_with_basename(base_name, this->get_gid(), p.rank);
         std::vector<hpx::future<hpx::id_type> > steppers =
-            hpx::find_all_ids_from_basename(base_name, p.nranks);
+            hpx::find_all_from_basename(base_name, p.nranks);
 
         return hpx::when_all(steppers).then(hpx::util::unwrapped2(
             [this, &p](std::vector<hpx::id_type> && ids)

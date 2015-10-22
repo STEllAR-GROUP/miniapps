@@ -36,7 +36,6 @@ namespace mini_ghost {
         {
             if(this != &other)
             {
-                mtx_        = std::move(other.mtx_);
                 value_      = std::move(other.value_);
                 generation_ = other.generation_;
                 gate_       = std::move(other.gate_);
