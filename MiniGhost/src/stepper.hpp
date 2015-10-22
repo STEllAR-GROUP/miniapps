@@ -25,7 +25,7 @@ namespace mini_ghost {
     {
         static const std::size_t max_num_neighbors = 6;
 
-        typedef hpx::util::serialize_buffer<Real> buffer_type;
+        typedef hpx::serialization::serialize_buffer<Real> buffer_type;
 
         stepper();
 
@@ -37,31 +37,31 @@ namespace mini_ghost {
         // define actions to set the boundary data
         void set_global_sum(std::size_t generation, std::size_t which,
             Real value, std::size_t idx, std::size_t id);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_global_sum,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_global_sum,
             set_global_sum_action);
 
         void set_north_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_north_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_north_zone,
             set_north_zone_action);
 
         void set_south_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_south_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_south_zone,
             set_south_zone_action);
 
         void set_east_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_east_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_east_zone,
             set_east_zone_action);
 
         void set_west_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_west_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_west_zone,
             set_west_zone_action);
 
         void set_front_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_front_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_front_zone,
             set_front_zone_action);
 
         void set_back_zone(buffer_type buffer, std::size_t step, std::size_t var);
-        HPX_DEFINE_COMPONENT_ACTION_TPL(stepper<Real>, set_back_zone,
+        HPX_DEFINE_COMPONENT_ACTION(stepper<Real>, set_back_zone,
             set_back_zone_action);
 
         std::size_t get_rank() const { return rank; }

@@ -11,7 +11,7 @@
 
 #include <hpx/lcos/async.hpp>
 #include <hpx/lcos/local/receive_buffer.hpp>
-#include <hpx/util/serialize_buffer.hpp>
+#include <hpx/runtime/serialization/serialize_buffer.hpp>
 
 namespace mini_ghost {
     template <typename BufferType, std::size_t Zone>

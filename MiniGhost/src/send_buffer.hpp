@@ -10,7 +10,7 @@
 #include <pack_buffer.hpp>
 
 #include <hpx/lcos/async.hpp>
-#include <hpx/util/serialize_buffer.hpp>
+#include <hpx/runtime/serialization/serialize_buffer.hpp>
 
 namespace mini_ghost {
     template <typename BufferType, std::size_t Zone, typename Action>

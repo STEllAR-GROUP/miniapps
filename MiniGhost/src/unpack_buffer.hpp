@@ -7,7 +7,7 @@
 #define HPX_EXAMPLES_MINI_GHOST_UNPACK_BUFFER_HPP
 
 #include <grid.hpp>
-#include <hpx/util/serialize_buffer.hpp>
+#include <hpx/runtime/serialization/serialize_buffer.hpp>
 
 namespace mini_ghost {
     template <std::size_t Zone>
